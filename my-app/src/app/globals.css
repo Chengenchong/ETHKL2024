@@ -3,22 +3,32 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
+  --background: #000000;
   --foreground: #171717;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #bd1919;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+/* styles/globals.css */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: rgb(16, 15, 15); /* Set the background color to black */
+  color: white; /* Set the text color to white for better contrast */
+  font-family: Arial, sans-serif; /* You can change the font family if desired */
 }
+
+#__next {
+  display: flex; /* Allows you to position your main content next to the sidebar */
+}
+
 
 @layer utilities {
   .text-balance {
