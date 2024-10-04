@@ -23,12 +23,19 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    width: 260px;
     height: 100%;
     padding: 0 16px;
     background: #1d212a;
     border-right: 1px solid #2e303e;
     transition: width 0.4s;
+  }
+  
+  .sidebar.collapsed {
+    width: 80px;
+  }
+  
+  .sidebar.expanded {
+    width: 260px;
   }
   
   .sidebar-header {
@@ -44,11 +51,7 @@
     width: 54px;
   }
   
-  .sidebar-logo {
-    height: 20px;
-  }
-  
-  .sidebar button {
+  .nav-button {
     position: relative;
     display: flex;
     gap: 16px;
@@ -62,46 +65,38 @@
     line-height: 1;
     padding: 0 16px;
     color: #e1ecff;
-    transition: background 0.3s;
+    transition: 0.3s;
   }
   
-  .sidebar button span:nth-child(2) {
-    flex: 1 1 auto;
+  .sidebar.collapsed .nav-button {
+    justify-content: center;
+    padding: 0;
   }
   
-  .sidebar button:is(.active, :hover) {
+  .sidebar.collapsed .nav-button .icon {
+    margin: 0;
+  }
+  
+  .nav-button:is(.active, :hover) {
     background: #004fee;
     color: #e1ecff;
   }
   
-  .sidebar button span {
+  .nav-button span {
     transition: 0.3s;
   }
   
-  .sidebar button.active > span:nth-child(3) {
+  .nav-button.active > span:nth-child(3) {
     rotate: -180deg;
   }
   
-  .sidebar button:not(.active):hover {
+  .nav-button:not(.active):hover {
     background: #2e303e;
-  }
-  
-  .sub-nav button.active::before {
-    background: #e1ecff;
   }
   
   .sub-nav {
     overflow: hidden;
-    /* height: 0; */
     transition: 0.5s;
-  }
-  
-  /* .sub-nav.open {
-    height: 200px;
-  } */
-  
-  .sub-nav button {
-    padding-left: 54px;
   }
   
   .sub-nav button::before {
@@ -116,32 +111,10 @@
     background-color: #e1ecff;
   }
   
+  .sidebar.collapsed .sub-nav {
+    display: none;
+  }
+  
   .material-symbols-outlined {
     font-size: 22px;
   }
-
-
-  .sidebar.collapsed {
-    width: 80px; /* Width of the collapsed sidebar */
-  }
-  
-  .sidebar.expanded {
-    width: 260px; /* Width of the expanded sidebar */
-  }
-  
-  .sidebar button {
-    justify-content: flex-start; /* Align items to the left */
-  }
-  
-  .sidebar.collapsed button span {
-    display: none; /* Hide text in collapsed state */
-  }
-  
-  .sidebar.collapsed button .icon {
-    justify-content: center; /* Center the icons in collapsed state */
-  }
-  
-  .sub-nav button {
-    padding-left: 54px; /* Ensure sub-menu items align correctly */
-  }
-  

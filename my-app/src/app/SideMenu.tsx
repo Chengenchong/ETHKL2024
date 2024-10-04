@@ -1,164 +1,147 @@
 "use client";
 
-import { FC, useRef, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { FaHome, FaCog, FaPlus, FaLock, FaBoxOpen, FaHeart } from "react-icons/fa";
-import "./SideBar.css";
+import { FaHome, FaCog, FaPlus, FaChevronDown } from "react-icons/fa";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const menuItems = [
   {
     name: "Home",
     icon: <FaHome />,
+    path: "/",
   },
   {
-    name: "Settings",
+    name: "Market Place",
     icon: <FaCog />,
-    items: ["Display", "Editor", "Theme", "Interface"],
+    items: [
+      { name: "Premium Market Place", path: "/market/premium" },
+      { name: "Normal Market Place", path: "/market/normal" },
+    ],
   },
   {
-    name: "Create",
+    name: "Game Development",
     icon: <FaPlus />,
-    items: ["Article", "Document", "Report"],
-  },
-  {
-    name: "Account",
-    icon: <FaLock />,
-    items: ["Dashboard", "Logout"],
-  },
-  {
-    name: "Products",
-    icon: <FaBoxOpen />,
-  },
-  {
-    name: "Favourites",
-    icon: <FaHeart />,
+    path: "/game-development",
   },
 ];
 
-type Item = {
-  name: string;
-  icon: JSX.Element;
-  items?: string[];
+type SidebarProps = {
+  isExpanded: boolean;
+  onToggle: () => void;
 };
 
-type ButtonProps = {
-  onClick: (item: string) => void;
-  name: string;
-  icon?: JSX.Element;
-  isActive: boolean;
-  hasSubNav?: boolean;
-};
-
-const Icon = ({ icon }: { icon: JSX.Element }) => (
-  <span className="icon">{icon}</span>
-);
-
-const NavHeader = ({ onToggle }: { onToggle: () => void }) => (
-  <header className="sidebar-header">
-    <button type="button" onClick={onToggle}>
-      <Icon icon={<GiHamburgerMenu />} />
-    </button>
-    <span>Admin</span>
-  </header>
-);
-
-const NavButton: FC<ButtonProps> = ({
-  onClick,
-  name,
-  icon,
-  isActive,
-  hasSubNav,
-}) => (
-  <button
-    type="button"
-    onClick={() => onClick(name)}
-    className={isActive ? "active" : ""}
-  >
-    {icon && <Icon icon={icon} />}
-    <span>{name}</span>
-    {hasSubNav && <Icon icon={<FaPlus />} />}
-  </button>
-);
-
-type SubMenuProps = {
-  item: Item;
-  activeItem: string;
-  handleClick: (item: string) => void;
-};
-
-const SubMenu: FC<SubMenuProps> = ({ item, activeItem, handleClick }) => {
-  const navRef = useRef<HTMLDivElement>(null);
-
-  const isSubNavOpen = (item: string, items: string[]) =>
-    items.some((i) => i === activeItem) || item === activeItem;
-
-  return (
-    <div
-      className={`sub-nav ${isSubNavOpen(item.name, item.items || []) ? "open" : ""}`}
-      style={{
-        height: !isSubNavOpen(item.name, item.items || [])
-          ? 0
-          : navRef.current?.clientHeight,
-      }}
-    >
-      <div ref={navRef} className="sub-nav-inner">
-        {item.items?.map((subItem) => (
-          <NavButton
-            key={subItem} // Add a key prop for each sub-item
-            onClick={handleClick}
-            name={subItem}
-            isActive={activeItem === subItem}
-          />
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const Sidebar = () => {
+const Sidebar: FC<SidebarProps> = ({ isExpanded, onToggle }) => {
   const [activeItem, setActiveItem] = useState<string>("");
-  const [isExpanded, setIsExpanded] = useState<boolean>(true); // State for expanding/collapsing
+  const pathname = usePathname();
+  
+  useEffect(() => {
+    const currentItem = menuItems.find(item => 
+      item.path === pathname || item.items?.some(subItem => subItem.path === pathname)
+    );
+    if (currentItem) {
+      setActiveItem(currentItem.name);
+    }
+  }, [pathname]);
 
-  const handleClick = (item: string) => {
-    setActiveItem(item !== activeItem ? item : "");
-  };
-
-  const toggleSidebar = () => {
-    setIsExpanded((prev) => !prev);
+  const handleItemClick = (name: string) => {
+    setActiveItem(activeItem === name ? "" : name);
   };
 
   return (
-    <aside className={`sidebar ${isExpanded ? "expanded" : "collapsed"}`}>
-      <NavHeader onToggle={toggleSidebar} />
-      {menuItems.map((item) => (
-        <div key={item.name}>
-          {!item.items && (
-            <NavButton
-              onClick={handleClick}
-              name={item.name}
-              icon={item.icon}
-              isActive={activeItem === item.name}
-              hasSubNav={!!item.items}
-            />
-          )}
-          {item.items && (
-            <>
-              <NavButton
-                onClick={handleClick}
-                name={item.name}
-                icon={item.icon}
-                isActive={activeItem === item.name}
-                hasSubNav={!!item.items}
-              />
-              <SubMenu
-                activeItem={activeItem}
-                handleClick={handleClick}
-                item={item}
-              />
-            </>
-          )}
+    <aside 
+      className={`fixed top-0 left-0 h-screen bg-[#1d212a] border-r border-zinc-800
+        transition-all duration-500 ease-in-out overflow-y-auto
+        ${isExpanded ? 'w-[260px]' : 'w-[80px]'}`}
+    >
+      {/* Header */}
+      <div className="h-[72px] px-4 border-b border-zinc-800 flex items-center">
+        <button 
+          onClick={onToggle}
+          className="w-10 h-10 rounded-lg hover:bg-zinc-800 flex items-center justify-center text-white
+            transition-colors duration-300"
+        >
+          <GiHamburgerMenu size={20} />
+        </button>
+        <div className={`ml-4 overflow-hidden transition-all duration-500 ease-in-out
+          ${isExpanded ? 'opacity-100 w-32' : 'opacity-0 w-0'}`}>
+          <span className="text-white font-medium whitespace-nowrap">Admin</span>
         </div>
-      ))}
+      </div>
+
+      {/* Menu Items */}
+      <nav className="px-4 mt-4">
+        {menuItems.map((item) => (
+          <div key={item.name}>
+            {item.path ? (
+              <Link href={item.path} passHref>
+                <button
+                  onClick={() => handleItemClick(item.name)}
+                  className={`w-full rounded-lg hover:bg-zinc-800 text-white
+                    flex items-center h-12 mb-1
+                    ${activeItem === item.name ? 'bg-zinc-800' : ''}
+                    ${!isExpanded ? 'justify-center px-2' : 'px-4'}
+                    transition-all duration-500 ease-in-out`}
+                >
+                  <span className={`text-xl transition-transform duration-500 ease-in-out
+                    ${!isExpanded ? 'transform scale-110' : ''}`}>
+                    {item.icon}
+                  </span>
+                  <div className={`flex items-center overflow-hidden transition-all duration-500 ease-in-out
+                    ${isExpanded ? 'opacity-100 w-full ml-4' : 'opacity-0 w-0 ml-0'}`}>
+                    <span className="flex-1 text-left whitespace-nowrap">{item.name}</span>
+                  </div>
+                </button>
+              </Link>
+            ) : (
+              <button
+                onClick={() => handleItemClick(item.name)}
+                className={`w-full rounded-lg hover:bg-zinc-800 text-white
+                  flex items-center h-12 mb-1
+                  ${activeItem === item.name ? 'bg-zinc-800' : ''}
+                  ${!isExpanded ? 'justify-center px-2' : 'px-4'}
+                  transition-all duration-500 ease-in-out`}
+              >
+                <span className={`text-xl transition-transform duration-500 ease-in-out
+                  ${!isExpanded ? 'transform scale-110' : ''}`}>
+                  {item.icon}
+                </span>
+                <div className={`flex items-center overflow-hidden transition-all duration-500 ease-in-out
+                  ${isExpanded ? 'opacity-100 w-full ml-4' : 'opacity-0 w-0 ml-0'}`}>
+                  <span className="flex-1 text-left whitespace-nowrap">{item.name}</span>
+                  {item.items && (
+                    <FaChevronDown
+                      className={`transform transition-transform duration-300 ease-in-out
+                        ${activeItem === item.name ? 'rotate-180' : ''}`}
+                    />
+                  )}
+                </div>
+              </button>
+            )}
+
+            {/* Dropdown Menu */}
+            {item.items && (
+              <div
+                className={`overflow-hidden transition-all duration-500 ease-in-out
+                  ${activeItem === item.name && isExpanded ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}
+              >
+                {item.items.map((subItem) => (
+                  <Link key={subItem.name} href={subItem.path} passHref>
+                    <button
+                      className="w-full text-white/80 hover:text-white hover:bg-zinc-800
+                        flex items-center h-10 px-4 pl-14 rounded-lg mb-1
+                        text-sm transition-all duration-300 ease-in-out"
+                    >
+                      <span className="whitespace-nowrap">{subItem.name}</span>
+                    </button>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </nav>
     </aside>
   );
 };
