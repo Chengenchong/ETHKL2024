@@ -5,15 +5,20 @@ import { getProvider, connectWallet } from '../../utils/ethereumProvider';
 import truncateEthAddress from 'truncate-eth-address';
 import { ethers } from 'ethers';
 
-export default function ScrollExample() {
+interface ScrollExampleProps {
+  onConnectionChange: (isConnected: boolean) => void;
+}
+
+export default function ScrollExample({ onConnectionChange }: ScrollExampleProps) {
   const [balance, setBalance] = useState<string | null>(null);
   const [address, setAddress] = useState<string | null>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
   useEffect(() => {
     const provider = getProvider();
+    onConnectionChange(isConnected);
     // You can use the provider here to interact with the Scroll network
-  }, []);
+  }, [isConnected, onConnectionChange]);
 
   const handleConnect = async () => {
     const walletProvider = await connectWallet();
