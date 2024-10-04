@@ -4,7 +4,7 @@
   
   body {
     margin: 0;
-    background: #12131a;
+    background: #030419;
     font-family: "Euclid Circular A";
   }
   
@@ -26,9 +26,11 @@
     width: 260px;
     height: 100%;
     padding: 0 16px;
-    background: #1d212a;
-    border-right: 1px solid #2e303e;
-    transition: width 0.4s;
+    background: rgba(9, 10, 36, 0.7); /* Semi-transparent dark background */
+    backdrop-filter: blur(10px); /* Adds a blur effect to the background */
+    -webkit-backdrop-filter: blur(10px); /* For Safari support */
+    border-right: 1px solid rgba(0, 0, 55, 0.5); /* Semi-transparent border */
+    transition: width 0.4s, background 0.4s;
   }
   
   .sidebar-header {
@@ -36,7 +38,7 @@
     align-items: center;
     height: 72px;
     padding: 0 1.25rem 0 0;
-    border-bottom: 1px solid #2e303e;
+    border-bottom: 1px solid #030419;
     color: #e1ecff;
   }
   
@@ -70,7 +72,7 @@
   }
   
   .sidebar button:is(.active, :hover) {
-    background: #004fee;
+    background: rgba(34, 22, 83, 0.9);  /* Semi-transparent dark purple */
     color: #e1ecff;
   }
   
