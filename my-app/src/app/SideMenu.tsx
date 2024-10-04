@@ -2,7 +2,7 @@
 
 import { FC, useState, useEffect } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { FaHome, FaCog, FaPlus, FaChevronDown } from "react-icons/fa";
+import { FaHome, FaCog, FaPlus, FaChevronDown, FaUser } from "react-icons/fa";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -24,6 +24,11 @@ const menuItems = [
     name: "Game Development",
     icon: <FaPlus size={15} />,
     path: "/game-development",
+  },
+  {
+    name: "Profile",
+    icon: <FaUser size={15} />,
+    path: "/profile",
   },
 ];
 

@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import AnimatedZonTitle from '../../AnimatedZonTitle';
 import Sidebar from '../../SideMenu';
-import MantaPacificWallet from '@/app/components/MantaPacificWallet';
+import MantaPacificWallet from '../../components/MantaPacificWallet';
 
 
 const PremiumMarket: React.FC = () => {
