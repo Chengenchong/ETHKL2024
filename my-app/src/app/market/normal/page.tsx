@@ -5,7 +5,6 @@ import AnimatedZonTitle from '../../AnimatedZonTitle';
 import Sidebar from '../../SideMenu';
 import ScrollWallet from '../../components/ScrollWallet';
 
-
 const NormalMarket: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(true);
   const handleConnectionChange = (isConnected: boolean) => {
