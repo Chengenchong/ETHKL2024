@@ -1,6 +1,7 @@
 "use client";
 import { useState } from 'react';
 import Sidebar from './SideMenu';
+import Manta from './mantanetworktest';  // Note the capital 'M' here
 
 export default function Home() {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -32,6 +33,11 @@ export default function Home() {
             <div className="bg-zinc-900/50 rounded-lg p-6">
               <h2 className="text-xl font-semibold text-white mb-3">Activities</h2>
               <p className="text-gray-300">Recent activities and updates</p>
+            </div>
+            
+            <div className="bg-zinc-900/50 rounded-lg p-6">
+              <h2 className="text-xl font-semibold text-white mb-3">Manta Network</h2>
+              <Manta />  {/* This is how you should use the Manta component */}
             </div>
           </div>
         </div>
