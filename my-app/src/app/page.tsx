@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { Search } from 'lucide-react';
 import AnimatedZonTitle from './AnimatedZonTitle';
 import Sidebar from './SideMenu';
-import MarketplaceSwitcher from './components/MarketplaceSwitcher';
+import MarketplaceSwitcher from './components/WalletSwitcher';
 
 
 interface GameCardProps {
