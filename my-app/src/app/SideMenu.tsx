@@ -46,7 +46,7 @@ const Sidebar: FC<SidebarProps> = ({ isExpanded, onToggle }) => {
   }, [pathname]);
 
   const handleItemClick = (name: string) => {
-    setActiveItem(activeItem === name ? "" : name);
+    setActiveItem(activeItem === name ? "" : name.toString());
   };
 
   return (
