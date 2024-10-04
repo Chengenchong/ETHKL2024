@@ -1,11 +1,12 @@
 "use client";
 
+import "./globals.css";
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
 import AnimatedZonTitle from './AnimatedZonTitle';
 import Sidebar from './SideMenu';
-import ScrollExample from './components/ScrollExample';
-import "./globals.css";
+import MarketplaceSwitcher from './components/MarketplaceSwitcher';
+
 
 interface GameCardProps {
   title: string;
@@ -31,7 +32,6 @@ const GameCard: React.FC<GameCardProps> = ({ title, description, image }) => (
 
 const MainPage: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(true);
-  const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [showPlayableOnly, setShowPlayableOnly] = useState(false);
 
@@ -88,7 +88,7 @@ const MainPage: React.FC = () => {
               <AnimatedZonTitle />
             </div>
             <div className="flex-shrink-0 ml-4">
-              <ScrollExample onConnectionChange={setIsWalletConnected} />
+              <MarketplaceSwitcher />
             </div>
           </div>
           
