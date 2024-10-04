@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
 import Sidebar from './SideMenu';
+import ScrollExample from './components/ScrollExample';
+import "./globals.css";
 
 interface GameCardProps {
   title: string;
@@ -29,6 +31,7 @@ const GameCard: React.FC<GameCardProps> = ({ title, description, image, hasDisco
 
 const MainPage: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(true);
+  const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [showPlayableOnly, setShowPlayableOnly] = useState(false);
 
@@ -76,8 +79,17 @@ const MainPage: React.FC = () => {
         isExpanded={isExpanded} 
         onToggle={() => setIsExpanded(!isExpanded)} 
       />
-      <main className={`flex-1 p-8 transition-all duration-500 ease-in-out ${isExpanded ? 'ml-64' : 'ml-20'}`}>
+      <main 
+        className={`flex-1 p-8 transition-all duration-500 ease-in-out relative
+          ${isExpanded ? 'ml-[260px]' : 'ml-[80px]'}`}
+      >
         <div className="max-w-7xl mx-auto">
+          <h1 className="text-4xl font-bold text-white mb-8">Welcome to Dashboard</h1>
+
+          <div style={{ position: 'absolute', top: '0', right: '0', marginRight: '20px', padding: '20px' }}>
+            <ScrollExample onConnectionChange={setIsWalletConnected} />
+          </div>
+          
           <div className="bg-zinc-800 p-4 rounded-lg mb-8 flex justify-between items-center">
             <div className="flex items-center space-x-4">
               <h2 className="text-lg font-bold text-white">Filters</h2>
