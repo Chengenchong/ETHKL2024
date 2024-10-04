@@ -1,4 +1,5 @@
 * {
+<<<<<<< HEAD
     box-sizing: border-box;
   }
   
@@ -121,29 +122,124 @@
   .material-symbols-outlined {
     font-size: 22px;
   }
+=======
+  box-sizing: border-box;
+}
+>>>>>>> c2b31031a3676445a5d4ad0c8381cdf6478ef5eb
 
+body {
+  margin: 0;
+  background: #12131a;
+  font-family: "Euclid Circular A";
+}
 
-  .sidebar.collapsed {
-    width: 80px; /* Width of the collapsed sidebar */
-  }
-  
-  .sidebar.expanded {
-    width: 260px; /* Width of the expanded sidebar */
-  }
-  
-  .sidebar button {
-    justify-content: flex-start; /* Align items to the left */
-  }
-  
-  .sidebar.collapsed button span {
-    display: none; /* Hide text in collapsed state */
-  }
-  
-  .sidebar.collapsed button .icon {
-    justify-content: center; /* Center the icons in collapsed state */
-  }
-  
-  .sub-nav button {
-    padding-left: 54px; /* Ensure sub-menu items align correctly */
-  }
-  
+button {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  padding: 0 16px;
+  background: #1d212a;
+  border-right: 1px solid #2e303e;
+  transition: width 0.4s;
+}
+
+.sidebar.collapsed {
+  width: 80px;
+}
+
+.sidebar.expanded {
+  width: 260px;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  height: 72px;
+  padding: 0 1.25rem 0 0;
+  border-bottom: 1px solid #2e303e;
+  color: #e1ecff;
+}
+
+.sidebar .sidebar-header button {
+  width: 54px;
+}
+
+.nav-button {
+  position: relative;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+  padding: 0 16px;
+  color: #e1ecff;
+  transition: 0.3s;
+}
+
+.sidebar.collapsed .nav-button {
+  justify-content: center;
+  padding: 0;
+}
+
+.sidebar.collapsed .nav-button .icon {
+  margin: 0;
+}
+
+.nav-button:is(.active, :hover) {
+  background: #004fee;
+  color: #e1ecff;
+}
+
+.nav-button span {
+  transition: 0.3s;
+}
+
+.nav-button.active > span:nth-child(3) {
+  rotate: -180deg;
+}
+
+.nav-button:not(.active):hover {
+  background: #2e303e;
+}
+
+.sub-nav {
+  overflow: hidden;
+  transition: 0.5s;
+}
+
+.sub-nav button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 25px;
+  translate: 0 -50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #e1ecff;
+}
+
+.sidebar.collapsed .sub-nav {
+  display: none;
+}
+
+.material-symbols-outlined {
+  font-size: 22px;
+}
