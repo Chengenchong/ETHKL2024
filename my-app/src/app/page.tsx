@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
+import AnimatedZonTitle from './AnimatedZonTitle';
 import Sidebar from './SideMenu';
 import ScrollExample from './components/ScrollExample';
 import "./globals.css";
@@ -10,16 +11,15 @@ interface GameCardProps {
   title: string;
   description: string;
   image: string;
-  hasDiscord?: boolean;
-  hasTwitter?: boolean;
 }
 
-const GameCard: React.FC<GameCardProps> = ({ title, description, image, hasDiscord = true, hasTwitter = true }) => (
-  <div className="bg-zinc-800 rounded-lg overflow-hidden shadow-lg">
-    <img src={image} alt={title} className="w-full h-48 object-cover" />
-    <div className="p-4">
-      <h3 className="text-white text-xl font-bold mb-2">{title}</h3>
-      <p className="text-gray-300 text-sm mb-4">{description}</p>
+const GameCard: React.FC<GameCardProps> = ({ title, description, image }) => (
+  <div className="relative overflow-hidden rounded-lg shadow-lg -[100px] md:h-[380px] lg:h-[380px]">
+    <img src={image} alt={title} className="w-full h-full object-cover" />
+    <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
+    <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+      <h3 className="text-2xl font-bold mb-2">{title}</h3>
+      <p className="text-sm mb-4">{description}</p>
       <div className="flex justify-between items-center">
         <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
           View game
@@ -39,33 +39,32 @@ const MainPage: React.FC = () => {
     {
       title: "Rebel Bots Epic War",
       description: "Command your army in dynamic, real-time PvP battles, employing strategic gameplay to outmaneuver opponents",
-      // image: "/game_images/Game_1.png"
-      image: "/game_images/game_2.jpg"
+      image: "/game_images/Game_2.png"
     },
     {
       title: "Aradena",
       description: "Battle in immersive gameplay, trade with other players, and compete in Aradena",
-      image: "https://via.placeholder.com/400x200?text=Aradena"
+      image: "/game_images/Game_1.jpeg"
     },
     {
       title: "Shardbound",
       description: "The best of a thousand worlds - the ultimate fusion of strategy, fantasy, and heart-pumping competition.",
-      image: "https://via.placeholder.com/400x200?text=Shardbound"
+      image: "/game_images/Game_3.jpg"
     },
     {
       title: "Galaxy Commanders",
       description: "Competitive PvP Space Battles / Assemble and Command your Space Fleet to Victory",
-      image: "https://via.placeholder.com/400x200?text=Galaxy+Commanders"
+      image: "/game_images/Game_4.jpg"
     },
     {
       title: "Rune Realms",
       description: "Rune Realms is a gamified investment experience where users can mint two unique classes of playable NFTs",
-      image: "https://via.placeholder.com/400x200?text=Rune+Realms"
+      image: "/game_images/Game_5.jpeg"
     },
     {
       title: "Skiesverse",
       description: "Post-apocalyptic tactical RPG with user-driven economics and tokenomics.",
-      image: "https://via.placeholder.com/400x200?text=Skiesverse"
+      image: "/game_images/Game_6.jpg"
     },
   ];
 
@@ -84,10 +83,13 @@ const MainPage: React.FC = () => {
           ${isExpanded ? 'ml-[260px]' : 'ml-[80px]'}`}
       >
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold text-white mb-8">Welcome to Dashboard</h1>
-
-          <div style={{ position: 'absolute', top: '0', right: '0', marginRight: '20px', padding: '20px' }}>
-            <ScrollExample onConnectionChange={setIsWalletConnected} />
+          <div className="flex justify-between items-center mb-8">
+            <div className="flex-1">
+              <AnimatedZonTitle />
+            </div>
+            <div className="flex-shrink-0 ml-4">
+              <ScrollExample onConnectionChange={setIsWalletConnected} />
+            </div>
           </div>
           
           <div className="bg-zinc-800 p-4 rounded-lg mb-8 flex justify-between items-center">
