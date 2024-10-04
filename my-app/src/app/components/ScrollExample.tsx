@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { getProvider, connectWallet } from '../../utils/ethereumProvider';
+import truncateEthAddress from 'truncate-eth-address';
 import { ethers } from 'ethers';
 
 export default function ScrollExample() {
@@ -19,16 +20,22 @@ export default function ScrollExample() {
     if (walletProvider) {
       const signer = await walletProvider.getSigner();
       const address = await signer.getAddress();
-      setAddress(address);
+      setAddress(truncateEthAddress(address));
       setIsConnected(true);
       const balance = await walletProvider.getBalance(address);
       setBalance(ethers.formatEther(balance));
     }
   };
 
+  const handleDisconnect = () => {
+    // Disconnect the wallet
+    setIsConnected(false);
+    setAddress(null);
+    setBalance(null);
+  };
+
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Scroll Integration Example</h1>
       {!isConnected ? (
         <button 
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -40,6 +47,12 @@ export default function ScrollExample() {
         <div>
           <p className="mb-2">Connected Address: {address}</p>
           <p>Balance: {balance} ETH</p>
+          <button 
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4"
+            onClick={handleDisconnect}
+          >
+            Disconnect Wallet
+          </button>
         </div>
       )}
     </div>
