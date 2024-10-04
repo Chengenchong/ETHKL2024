@@ -1,135 +1,122 @@
-<<<<<<< HEAD
-import React from 'react';
-import "./globals.css";
-import Sidebar from "./SideMenu";
+"use client";
+
+import React, { useState } from 'react';
+import { Search } from 'lucide-react';
+import Sidebar from './SideMenu';
 
 interface GameCardProps {
   title: string;
-  price: string;
-  image?: string;
+  description: string;
+  image: string;
+  hasDiscord?: boolean;
+  hasTwitter?: boolean;
 }
 
-const GameCard: React.FC<GameCardProps> = ({ title, image, price }) => (
-  <div className="bg-[#1D1A2F] rounded-lg overflow-hidden shadow-lg p-4">
-    {image ? (
-      <div className="h-32 bg-gray-300 mb-2" style={{backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
-    ) : (
-      <div className="h-32 bg-gray-300 mb-2"></div>
-    )}
-    <h3 className="text-white text-lg font-semibold">{title}</h3>
-    <p className="text-[#B8B5FF]">{price}</p>
+const GameCard: React.FC<GameCardProps> = ({ title, description, image, hasDiscord = true, hasTwitter = true }) => (
+  <div className="bg-zinc-800 rounded-lg overflow-hidden shadow-lg">
+    <img src={image} alt={title} className="w-full h-48 object-cover" />
+    <div className="p-4">
+      <h3 className="text-white text-xl font-bold mb-2">{title}</h3>
+      <p className="text-gray-300 text-sm mb-4">{description}</p>
+      <div className="flex justify-between items-center">
+        <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+          View game
+        </button>
+      </div>
+    </div>
   </div>
 );
 
-const MainContent: React.FC = () => (
-  <div>
-    <Sidebar/>
-  <div className="bg-[#13111E] min-h-screen text-white p-8">
-    <h1 className="text-3xl font-bold mb-8">Welcome to Web3 Game Hub</h1>
-    
-    <section className="mb-12">
-      <h2 className="text-2xl font-bold mb-6">Your Library</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <GameCard 
-          title="Crypto Legends" 
-          price="Owned" 
-          image="https://via.placeholder.com/300x200?text=Crypto+Legends" 
-        />
-        <GameCard 
-          title="NFT Racer" 
-          price="Owned" 
-          image="https://via.placeholder.com/300x200?text=NFT+Racer" 
-        />
-        <GameCard 
-          title="Blockchain Battles" 
-          price="Owned" 
-          image="https://via.placeholder.com/300x200?text=Blockchain+Battles" 
-        />
-      </div>
-    </section>
-
-    <section className="mb-12">
-      <h2 className="text-2xl font-bold mb-6">Featured Games</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <GameCard 
-          title="Ethereum Quest" 
-          price="$19.99" 
-          image="https://via.placeholder.com/300x200?text=Ethereum+Quest" 
-        />
-        <GameCard 
-          title="Manta Miner" 
-          price="$24.99" 
-          image="https://via.placeholder.com/300x200?text=Manta+Miner" 
-        />
-        <GameCard 
-          title="Scroll Saga" 
-          price="Free to Play" 
-          image="https://via.placeholder.com/300x200?text=Scroll+Saga" 
-        />
-      </div>
-    </section>
-
-    <section>
-      <h2 className="text-2xl font-bold mb-6">Web3 Game Development Tools</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {[
-          { name: 'Asset Library', description: 'Access verified, copyright-free game assets' },
-          { name: 'NFT Integration', description: 'Tools for creating and managing in-game NFTs' },
-          { name: 'Smart Contracts', description: 'Deploy and manage game logic on the blockchain' },
-          { name: 'Copyright Checker', description: 'Verify the originality of game assets' }
-        ].map((tool, index) => (
-          <div key={index} className="bg-[#1D1A2F] p-6 rounded-lg">
-            <h3 className="text-xl font-semibold mb-2">{tool.name}</h3>
-            <p className="text-[#B8B5FF]">{tool.description}</p>
-          </div>
-        ))}
-      </div>
-    </section>
-  </div>
-  </div>
-);
-
-export default MainContent;
-=======
-"use client";
-import { useState } from 'react';
-import Sidebar from './SideMenu';
-
-export default function Home() {
+const MainPage: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showPlayableOnly, setShowPlayableOnly] = useState(false);
+
+  const games: GameCardProps[] = [
+    {
+      title: "Rebel Bots Epic War",
+      description: "Command your army in dynamic, real-time PvP battles, employing strategic gameplay to outmaneuver opponents",
+      // image: "/game_images/Game_1.png"
+      image: "/game_images/game_2.jpg"
+    },
+    {
+      title: "Aradena",
+      description: "Battle in immersive gameplay, trade with other players, and compete in Aradena",
+      image: "https://via.placeholder.com/400x200?text=Aradena"
+    },
+    {
+      title: "Shardbound",
+      description: "The best of a thousand worlds - the ultimate fusion of strategy, fantasy, and heart-pumping competition.",
+      image: "https://via.placeholder.com/400x200?text=Shardbound"
+    },
+    {
+      title: "Galaxy Commanders",
+      description: "Competitive PvP Space Battles / Assemble and Command your Space Fleet to Victory",
+      image: "https://via.placeholder.com/400x200?text=Galaxy+Commanders"
+    },
+    {
+      title: "Rune Realms",
+      description: "Rune Realms is a gamified investment experience where users can mint two unique classes of playable NFTs",
+      image: "https://via.placeholder.com/400x200?text=Rune+Realms"
+    },
+    {
+      title: "Skiesverse",
+      description: "Post-apocalyptic tactical RPG with user-driven economics and tokenomics.",
+      image: "https://via.placeholder.com/400x200?text=Skiesverse"
+    },
+  ];
+
+  const filteredGames = games.filter(game => 
+    game.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <div className="min-h-screen flex bg-[#101010]">
+    <div className="flex min-h-screen bg-zinc-900">
       <Sidebar 
         isExpanded={isExpanded} 
         onToggle={() => setIsExpanded(!isExpanded)} 
       />
-      <main 
-        className={`flex-1 p-8 transition-all duration-500 ease-in-out
-          ${isExpanded ? 'ml-[260px]' : 'ml-[80px]'}`}
-      >
+      <main className={`flex-1 p-8 transition-all duration-500 ease-in-out ${isExpanded ? 'ml-64' : 'ml-20'}`}>
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold text-white mb-8">Welcome to Dashboard</h1>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-zinc-900/50 rounded-lg p-6">
-              <h2 className="text-xl font-semibold text-white mb-3">Overview</h2>
-              <p className="text-gray-300">Your dashboard overview and summary</p>
+          <div className="bg-zinc-800 p-4 rounded-lg mb-8 flex justify-between items-center">
+            <div className="flex items-center space-x-4">
+              <h2 className="text-lg font-bold text-white">Filters</h2>
+              <div className="relative">
+                <select className="bg-zinc-700 text-white py-2 pl-3 pr-8 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-600">
+                  <option>Game Genres</option>
+                </select>
+              </div>
+              <label className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={showPlayableOnly}
+                  onChange={() => setShowPlayableOnly(!showPlayableOnly)}
+                  className="form-checkbox h-5 w-5 text-indigo-600"
+                />
+                <span className="text-white">Playable games only</span>
+              </label>
             </div>
-            
-            <div className="bg-zinc-900/50 rounded-lg p-6">
-              <h2 className="text-xl font-semibold text-white mb-3">Statistics</h2>
-              <p className="text-gray-300">View your latest analytics</p>
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search game titles"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="bg-zinc-700 text-white py-2 pl-10 pr-4 rounded-md w-64 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+              />
+              <Search className="absolute left-3 top-2.5 text-gray-400" size={20} />
             </div>
-            
-            <div className="bg-zinc-900/50 rounded-lg p-6">
-              <h2 className="text-xl font-semibold text-white mb-3">Activities</h2>
-              <p className="text-gray-300">Recent activities and updates</p>
-            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredGames.map((game, index) => (
+              <GameCard key={index} {...game} />
+            ))}
           </div>
         </div>
       </main>
     </div>
   );
-}
->>>>>>> c2b31031a3676445a5d4ad0c8381cdf6478ef5eb
+};
+
+export default MainPage;
