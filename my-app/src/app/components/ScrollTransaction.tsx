@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { ethers } from 'ethers';
 
-interface MantaTransactionProps {
+interface ScrollTransactionProps {
   isWalletConnected: boolean;
   onTransactionComplete: () => void;
 }
@@ -14,7 +14,7 @@ declare global {
   }
 }
 
-export default function MantaTransaction({ isWalletConnected, onTransactionComplete }: MantaTransactionProps) {
+export default function ScrollTransaction({ isWalletConnected, onTransactionComplete }: ScrollTransactionProps) {
   const [recipient, setRecipient] = useState('');
   const [amount, setAmount] = useState('');
   const [isLoading, setIsLoading] = useState(false);

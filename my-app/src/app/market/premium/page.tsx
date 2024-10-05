@@ -17,6 +17,7 @@ const PremiumMarket: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [activeCategory, setActiveCategory] = useState<'Games' | 'In-Game Assets'>('Games');
   const [isWalletConnected, setIsWalletConnected] = useState(false);
+  const [isPurchased, setIsPurchased] = useState(false);
 
   const handleConnectionChange = (isConnected: boolean) => {
     setIsWalletConnected(isConnected);
@@ -24,6 +25,10 @@ const PremiumMarket: React.FC = () => {
   
   const handleTransactionComplete = () => {
     console.log('Transaction completed!');
+  };
+
+  const handlePurchase = () => {
+    setIsPurchased(true);
   };
 
   return (
@@ -40,8 +45,8 @@ const PremiumMarket: React.FC = () => {
           </div>
           
           <div className="bg-purple-900 rounded-lg p-6 mb-8">
-            <h2 className="text-2xl font-bold mb-4">Featured Items</h2>
-            <p className="text-gray-300">Slider content goes here...</p>
+            <h2 className="text-2xl font-bold mb-4">Premium Marketplace</h2>
+            <p className="text-gray-300">Rarest and most sought after in game assets and game development elements!</p>
           </div>
           
           <div className="grid grid-cols-2 gap-8 mb-8">
@@ -54,21 +59,21 @@ const PremiumMarket: React.FC = () => {
             onCategoryChange={setActiveCategory}
           />
 
-          <ProductGrid type={activeCategory} />
+          <ProductGrid type={activeCategory} onPurchase={handlePurchase} />
+          <div className="container mx-auto p-4">
+            {isWalletConnected && isPurchased && (
+              <MantaTransaction 
+                isWalletConnected={isWalletConnected} 
+                onTransactionComplete={handleTransactionComplete} 
+              />
+            )}
+          </div>
 
-          <h2 className="text-2xl font-bold my-8 text-purple-300">Premium</h2>
+          <h2 className="text-2xl font-bold my-8 text-purple-300">New Releases</h2>
           <PremiumSection />
         </div>
 
-        <div className="container mx-auto p-4">
-          <h1 className="text-2xl font-bold mb-4 text-white">Premium Marketplace</h1>
-          {isWalletConnected && (
-            <MantaTransaction 
-              isWalletConnected={isWalletConnected} 
-              onTransactionComplete={handleTransactionComplete} 
-            />
-          )}
-        </div>
+        
 
       </main>
     </div>

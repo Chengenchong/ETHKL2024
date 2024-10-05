@@ -2,9 +2,14 @@ import React from 'react';
 
 interface ProductGridProps {
   type: 'Games' | 'In-Game Assets';
+  onPurchase: () => void;
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ type }) => {
+const ProductGrid: React.FC<ProductGridProps> = ({ type, onPurchase }) => {
+  const handlePurchase = () => {
+    onPurchase();
+  };
+
   const products = type === 'Games' 
     ? [
         { id: '1', name: 'Game 1', price: 50, image: '/game1.jpg' },
@@ -27,7 +32,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ type }) => {
           <div className="p-4">
             <h3 className="text-lg font-semibold text-white">{product.name}</h3>
             <p className="text-purple-300 mt-2">{product.price} ETH</p>
-            <button className="mt-4 bg-purple-600 text-white py-2 px-4 rounded-full w-full">
+            <button onClick={handlePurchase} className="mt-4 bg-purple-600 text-white py-2 px-4 rounded-full w-full">
               {type === 'Games' ? 'Play Now' : 'Buy Now'}
             </button>
           </div>
