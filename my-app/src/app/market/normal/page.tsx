@@ -12,7 +12,10 @@ const NormalMarket: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-zinc-900">
+    <div className="min-h-screen flex text-white"
+      style={{
+      background: 'linear-gradient(to bottom, #2c007d 0%, #000000 20%, #000000 70%)'
+    }}>
       <Sidebar 
         isExpanded={isExpanded} 
         onToggle={() => setIsExpanded(!isExpanded)} 
