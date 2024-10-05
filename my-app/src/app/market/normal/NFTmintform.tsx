@@ -44,14 +44,16 @@ const NFTMintingForm: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState('');
   const [contract, setContract] = useState<ethers.Contract | null>(null);
+  const [signer, setSigner] = useState<ethers.Signer | null>(null);
 
   useEffect(() => {
     const initializeContract = async () => {
       if (typeof window.ethereum !== 'undefined') {
         try {
           await window.ethereum.request({ method: 'eth_requestAccounts' });
-          const provider = new ethers.providers.Web3Provider(window.ethereum as any);
-          const signer = provider.getSigner();
+          const provider = new ethers.BrowserProvider(window.ethereum);
+          const signer = await provider.getSigner();
+          setSigner(signer);
           const nftContract = new ethers.Contract(NFT_CONTRACT_ADDRESS, NFT_CONTRACT_ABI, signer);
           setContract(nftContract);
         } catch (error) {
@@ -96,12 +98,13 @@ const NFTMintingForm: React.FC = () => {
     }
 
     try {
-      const signer = contract.signer;
-      const address = await signer.getAddress();
-      const mintTx = await contract.safeMint(address, tokenURI);
-      setStatus('Minting... Please wait for transaction confirmation.');
-      await mintTx.wait();
-      setStatus('NFT minted successfully!');
+      if (signer !== null) {
+        const address = await signer.getAddress();
+        const mintTx = await contract.safeMint(address, tokenURI);
+        setStatus('Minting... Please wait for transaction confirmation.');
+        await mintTx.wait();
+        setStatus('NFT minted successfully!');
+      }
     } catch (err: any) {
       console.error(err);
       setError(`Error minting NFT: ${err.message}`);
