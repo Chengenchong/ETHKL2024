@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState } from 'react';
-import AnimatedZonTitle from '../../components/AnimatedZonTitle';
-import Sidebar from '../../SideMenu';
-import ScrollWallet from '../../components/ScrollWallet';
+import AnimatedZonTitle from '../components/AnimatedZonTitle';
+import Sidebar from '../SideMenu';
+import NFTMintingForm from './NFTmintform';
 
-const NormalMarket: React.FC = () => {
+const MintNFT: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(true);
   const handleConnectionChange = (isConnected: boolean) => {
     // Update your app state here
@@ -29,9 +29,9 @@ const NormalMarket: React.FC = () => {
             <div className="flex-1">
               <AnimatedZonTitle />
             </div>
-            <div className="flex-shrink-0 ml-4">
-              <ScrollWallet onConnectionChange={handleConnectionChange} />
-            </div>
+          </div>
+          <div>
+            <NFTMintingForm />
           </div>
         </div>
       </main>
@@ -39,5 +39,5 @@ const NormalMarket: React.FC = () => {
   );
 };
   
-export default NormalMarket;
+export default MintNFT;
   

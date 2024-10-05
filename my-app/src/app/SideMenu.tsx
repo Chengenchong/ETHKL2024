@@ -2,10 +2,11 @@
 
 import { FC, useState, useEffect } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { FaHome, FaCog, FaPlus, FaChevronDown, FaUser } from "react-icons/fa";
+import { FaHome, FaCog, FaPlus, FaChevronDown, FaUser, FaEthereum } from "react-icons/fa";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import './SideBar.css';
+import path from "path";
 
 const menuItems = [
   {
@@ -25,6 +26,11 @@ const menuItems = [
     name: "Game Development",
     icon: <FaPlus size={15} />,
     path: "/game-development",
+  },
+  {
+    name: "Mint NFT",
+    icon: <FaEthereum size={15} />,
+    path: "/mintNFT",
   },
   {
     name: "Profile",
