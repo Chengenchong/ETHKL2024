@@ -1,0 +1,43 @@
+/* Global Styles */
+body {
+    background-color: #030419;
+  }
+  
+  .marketplace-sections {
+    margin-top: 2rem;
+  }
+  
+  .section {
+    padding: 2rem 0;
+  }
+  
+  .product-card {
+    transition: transform 0.3s ease;
+  }
+  
+  .product-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .premium-card {
+    border: 2px solid #6747e8;
+    transition: transform 0.3s ease;
+  }
+  
+  .premium-card:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Header and Titles */
+  h2 {
+    font-weight: bold;
+  }
+  
+  .text-white {
+    color: #ffffff;
+  }
+  
+  .text-purple-500 {
+    color: #6747e8;
+  }
+  
