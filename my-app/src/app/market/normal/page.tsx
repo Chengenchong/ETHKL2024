@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import AnimatedZonTitle from "../../AnimatedZonTitle";
+import AnimatedZonTitle from "../../components/AnimatedZonTitle";
 import Sidebar from "../../SideMenu";
 import ScrollWallet from "../../components/ScrollWallet";
 import ProductGrid from "./ProductGrid"; // Import ProductGrid
