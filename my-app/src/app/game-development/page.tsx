@@ -78,121 +78,137 @@ interface ImageItem {
 }
 
 const Viewport = () => {
-  const [grid, setGrid] = useState<(ImageItem | null)[][]>(
-    Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill(null))
-  );
-
-  useEffect(() => {
-    const handleDragOver = (e: DragEvent) => e.preventDefault();
-    const handleDrop = (e: DragEvent) => {
-      e.preventDefault();
-      const target = e.target as HTMLElement;
-      const cellElement = target.closest('.grid-cell');
-      if (!cellElement) return;
-
-      const cellX = parseInt(cellElement.getAttribute('data-x') || '0', 10);
-      const cellY = parseInt(cellElement.getAttribute('data-y') || '0', 10);
-      
-      const itemData = e.dataTransfer?.getData('application/json');
-      if (!itemData) return;
-
-      const item: ImageItem = JSON.parse(itemData);
-      
-      if (cellX >= 0 && cellX < GRID_SIZE && cellY >= 0 && cellY < GRID_SIZE) {
-        const newGrid = [...grid];
-        newGrid[cellY][cellX] = item;
-        setGrid(newGrid);
+    const [grid, setGrid] = useState<(ImageItem | null)[][]>(
+      Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill(null))
+    );
+  
+    useEffect(() => {
+      const handleDragOver = (e: DragEvent) => e.preventDefault();
+      const handleDrop = (e: DragEvent) => {
+        e.preventDefault();
+        const target = e.target as HTMLElement;
+        const cellElement = target.closest('.grid-cell');
+        if (!cellElement) return;
+  
+        const cellX = parseInt(cellElement.getAttribute('data-x') || '0', 10);
+        const cellY = parseInt(cellElement.getAttribute('data-y') || '0', 10);
+        
+        const itemData = e.dataTransfer?.getData('application/json');
+        if (!itemData) return;
+  
+        const item: ImageItem = JSON.parse(itemData);
+        
+        if (cellX >= 0 && cellX < GRID_SIZE && cellY >= 0 && cellY < GRID_SIZE) {
+          const newGrid = [...grid];
+          newGrid[cellY][cellX] = item;
+          setGrid(newGrid);
+        }
+      };
+  
+      document.addEventListener('dragover', handleDragOver);
+      document.addEventListener('drop', handleDrop);
+      return () => {
+        document.removeEventListener('dragover', handleDragOver);
+        document.removeEventListener('drop', handleDrop);
+      };
+    }, [grid]);
+  
+    const handleSave = async () => {
+      const gridElement = document.querySelector('.grid') as HTMLElement;
+      if (!gridElement) {
+        alert('Grid element not found');
+        return;
+      }
+    
+      try {
+        const canvas = await html2canvas(gridElement, {
+          logging: true,
+          width: gridElement.offsetWidth,
+          height: gridElement.offsetHeight,
+          useCORS: true, // This might help if you have any cross-origin images
+        });
+        
+        const imageData = canvas.toDataURL('image/png');
+        console.log('Image data (first 100 chars):', imageData.substring(0, 100));
+    
+        const response = await fetch('/api/save-map', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ imageData }),
+        });
+    
+        if (response.ok) {
+          const result = await response.json();
+          console.log('Map saved:', result.filePath);
+          alert(`Map saved successfully! File path: ${result.filePath}`);
+        } else {
+          const errorText = await response.text();
+          console.error('Server error:', errorText);
+          throw new Error(`Failed to save the map: ${errorText}`);
+        }
+      } catch (error: unknown) {
+        console.error('Error saving map:', error);
+        if (error instanceof Error) {
+          alert(`Failed to save the map. Error: ${error.message}`);
+        } else {
+          alert('Failed to save the map. An unknown error occurred.');
+        }
       }
     };
-
-    document.addEventListener('dragover', handleDragOver);
-    document.addEventListener('drop', handleDrop);
-    return () => {
-      document.removeEventListener('dragover', handleDragOver);
-      document.removeEventListener('drop', handleDrop);
-    };
-  }, [grid]);
-
-  const handleSave = async () => {
-    const gridElement = document.querySelector('.grid') as HTMLElement;
-    if (!gridElement) return;
-
-    try {
-      const canvas = await html2canvas(gridElement);
-      const imageData = canvas.toDataURL('image/png');
-
-      const response = await fetch('/api/save-map', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ imageData }),
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        console.log('Map saved:', result.filePath);
-        alert('Map saved successfully!');
-      } else {
-        throw new Error('Failed to save the map');
-      }
-    } catch (error) {
-      console.error('Error saving map:', error);
-      alert('Failed to save the map. Please try again.');
-    }
-  };
-
-  return (
-    <div className="bg-black flex-1 p-4">
-      <div className="bg-gray-800 h-full rounded-lg flex flex-col items-center justify-center text-white p-4">
-        <h2 className="text-xl mb-4">2D Map Editor</h2>
-        <div 
-          className="grid gap-1" 
-          style={{
-            gridTemplateColumns: `repeat(${GRID_SIZE}, ${CELL_SIZE}px)`,
-            gridTemplateRows: `repeat(${GRID_SIZE}, ${CELL_SIZE}px)`,
-          }}
-        >
-          {grid.map((row, y) => 
-            row.map((cell, x) => (
-              <div 
-                key={`${x}-${y}`} 
-                className="grid-cell bg-gray-700 border border-gray-600 flex items-center justify-center overflow-hidden"
-                style={{ width: CELL_SIZE, height: CELL_SIZE }}
-                data-x={x}
-                data-y={y}
-              >
-                {cell && (
-                  <img 
-                    src={cell.path} 
-                    alt={cell.name} 
-                    className="w-full h-full object-cover"
-                    title={`${cell.name} (${cell.type})`}
-                  />
-                )}
-              </div>
-            ))
-          )}
+  
+    return (
+      <div className="bg-black flex-1 p-4">
+        <div className="bg-gray-800 h-full rounded-lg flex flex-col items-center justify-center text-white p-4">
+          <h2 className="text-xl mb-4">2D Map Editor</h2>
+          <div 
+            className="grid gap-1" 
+            style={{
+              gridTemplateColumns: `repeat(${GRID_SIZE}, ${CELL_SIZE}px)`,
+              gridTemplateRows: `repeat(${GRID_SIZE}, ${CELL_SIZE}px)`,
+            }}
+          >
+            {grid.map((row, y) => 
+              row.map((cell, x) => (
+                <div 
+                  key={`${x}-${y}`} 
+                  className="grid-cell bg-gray-700 border border-gray-600 flex items-center justify-center overflow-hidden"
+                  style={{ width: CELL_SIZE, height: CELL_SIZE }}
+                  data-x={x}
+                  data-y={y}
+                >
+                  {cell && (
+                    <img 
+                      src={cell.path} 
+                      alt={cell.name} 
+                      className="w-full h-full object-cover"
+                      title={`${cell.name} (${cell.type})`}
+                    />
+                  )}
+                </div>
+              ))
+            )}
+          </div>
+          <button 
+            className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded flex items-center"
+            onClick={handleSave}
+          >
+            <Save size={16} className="mr-2" />
+            Save Map
+          </button>
         </div>
-        <button 
-          className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded flex items-center"
-          onClick={handleSave}
-        >
-          <Save size={16} className="mr-2" />
-          Save Map
-        </button>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
 const imageItems: ImageItem[] = [
   { name: "Grass", type: "Terrain", path: "/game_images/Grass.png" },
   { name: "Water", type: "Terrain", path: "/game_images/Water.jpeg" },
-  { name: "Tree", type: "Object", path: "/game_images/tree.jpeg" },
-  { name: "Rock", type: "Object", path: "/game_images/rock.png" },
-  { name: "House", type: "Building", path: "/game_images/house.jpeg" },
-  { name: "Character", type: "NPC", path: "/game_images/character.png" },
+  { name: "Tree", type: "Object", path: "/game_images/tree-Photoroom.png" },
+  { name: "Rock", type: "Object", path: "/game_images/rock-Photoroom.png" },
+  { name: "House", type: "Building", path: "/game_images/house-Photoroom.png" },
+  { name: "Character", type: "NPC", path: "/game_images/character-Photoroom.png" },
 ];
 
 const Outliner = ({ onDragStart }: { onDragStart: (item: ImageItem) => void }) => {
