@@ -8,34 +8,35 @@ import { IDKitWidget, ISuccessResult, VerificationLevel } from '@worldcoin/idkit
 
 const Profile: React.FC = () => {
     const [isExpanded, setIsExpanded] = useState(true);
-    const handleConnectionChange = (isConnected: boolean) => {
-    // Update your app state here
-    };
+    //const [verificationResult, setVerificationResult] = useState<string | null>(null);
 
     const verifyProof = async (proof: ISuccessResult) => {
-        console.log('proof', proof);
-        const response = await fetch(
-          'https://developer.worldcoin.org/api/v1/verify/app_staging_129259332fd6f93d4fabaadcc5e4ff9d',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ ...proof, action: "test"}),
-          }
-        );
-        if (response.ok) {
-          const { verified } = await response.json();
-          return verified;
-        } else {
-          const { code, detail } = await response.json();
-          throw new Error(`Error Code ${code}: ${detail}`);
+        try {
+            const response = await fetch(
+                '/api/verify',
+                {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(proof),
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                return result.success;
+            } else {
+                const errorData = await response.json();
+                throw new Error(`Error Code ${errorData.detail}`);
+            }
+        } catch (error) {
+            console.error('Verification error:', error);
+            return false;
         }
       };
 
     // TODO: Functionality after verifying
     const onSuccess = (result: ISuccessResult) => {
-        console.log("Success")
         // This is where you should perform frontend actions once a user has been verified
         window.alert(
             `Successfully verified with World ID!
