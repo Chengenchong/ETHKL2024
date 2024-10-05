@@ -39,3 +39,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ## Things that need to be installed
 
 npm install react-icons
+npm install react-dropzone @shadcn/ui lucide-react

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import AnimatedZonTitle from '../../components/AnimatedZonTitle';
 import Sidebar from '../../SideMenu';
 import ScrollWallet from '../../components/ScrollWallet';
+import NFTMintingForm from './NFTmintform';
 
 const NormalMarket: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -28,6 +29,7 @@ const NormalMarket: React.FC = () => {
           <div className="flex justify-between items-center mb-8">
             <div className="flex-1">
               <AnimatedZonTitle />
+              <NFTMintingForm />
             </div>
             <div className="flex-shrink-0 ml-4">
               <ScrollWallet onConnectionChange={handleConnectionChange} />

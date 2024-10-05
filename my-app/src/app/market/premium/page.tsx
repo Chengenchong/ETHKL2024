@@ -6,6 +6,8 @@ import Sidebar from '../../SideMenu';
 import MantaPacificWallet from '../../components/MantaPacificWallet';
 import MantaTransaction from '../../components/MantaTransaction';
 
+// Import the CSS file as a side effect
+import './premiumMarket.css';
 
 const PremiumMarket: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -43,20 +45,18 @@ const PremiumMarket: React.FC = () => {
           </div>
         </div>
 
-          <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4">Premium Marketplace</h1>
-            {isWalletConnected && (
-              <MantaTransaction 
-                isWalletConnected={isWalletConnected} 
-                onTransactionComplete={handleTransactionComplete} 
-              />
-            )}
-          </div>
-
+        <div className="container mx-auto p-4">
+          <h1 className="text-2xl font-bold mb-4 text-white">Premium Marketplace</h1>
+          {isWalletConnected && (
+            <MantaTransaction 
+              isWalletConnected={isWalletConnected} 
+              onTransactionComplete={handleTransactionComplete} 
+            />
+          )}
+        </div>
       </main>
     </div>
   );
 };
   
 export default PremiumMarket;
-  
