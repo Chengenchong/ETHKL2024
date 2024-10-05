@@ -4,12 +4,19 @@ import React, { useState } from 'react';
 import AnimatedZonTitle from '../../AnimatedZonTitle';
 import Sidebar from '../../SideMenu';
 import MantaPacificWallet from '../../components/MantaPacificWallet';
+import MantaTransaction from '../../components/MantaTransaction';
 
 
 const PremiumMarket: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(true);
+  const [isWalletConnected, setIsWalletConnected] = useState(false);
+  
   const handleConnectionChange = (isConnected: boolean) => {
-    // Update your app state here
+    setIsWalletConnected(isConnected);
+  };
+  
+  const handleTransactionComplete = () => {
+    console.log('Transaction completed!');
   };
 
   return (
@@ -32,6 +39,17 @@ const PremiumMarket: React.FC = () => {
             </div>
           </div>
         </div>
+
+          <div className="container mx-auto p-4">
+            <h1 className="text-2xl font-bold mb-4">Premium Marketplace</h1>
+            {isWalletConnected && (
+              <MantaTransaction 
+                isWalletConnected={isWalletConnected} 
+                onTransactionComplete={handleTransactionComplete} 
+              />
+            )}
+          </div>
+
       </main>
     </div>
   );

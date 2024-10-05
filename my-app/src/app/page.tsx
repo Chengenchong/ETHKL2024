@@ -7,7 +7,6 @@ import AnimatedZonTitle from './AnimatedZonTitle';
 import Sidebar from './SideMenu';
 import MarketplaceSwitcher from './components/WalletSwitcher';
 
-
 interface GameCardProps {
   title: string;
   description: string;
