@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Settings, Plus, Import, Save, ChevronRight, Folder, Command, Search, ChevronDown, Volume2, Gamepad, Sun, Globe, Cloud, Box, Camera, Code, Layers, Pause, Play, Users, Wrench, Zap, Cpu, Crosshair, Layout, Image } from 'lucide-react';
-import AnimatedZonTitle from '../AnimatedZonTitle';
+import AnimatedZonTitle from '../components/AnimatedZonTitle';
 import Sidebar from '../SideMenu';
 import html2canvas from 'html2canvas';
 

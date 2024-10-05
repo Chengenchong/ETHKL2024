@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import AnimatedZonTitle from '../../AnimatedZonTitle';
+import AnimatedZonTitle from '../../components/AnimatedZonTitle';
 import Sidebar from '../../SideMenu';
 import MantaPacificWallet from '../../components/MantaPacificWallet';
 import MantaTransaction from '../../components/MantaTransaction';
@@ -10,7 +10,7 @@ import MantaTransaction from '../../components/MantaTransaction';
 const PremiumMarket: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [isWalletConnected, setIsWalletConnected] = useState(false);
-  
+
   const handleConnectionChange = (isConnected: boolean) => {
     setIsWalletConnected(isConnected);
   };

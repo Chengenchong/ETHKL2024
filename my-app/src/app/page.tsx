@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
-import AnimatedZonTitle from './AnimatedZonTitle';
-import GameBanner from './GameBanner';
+import AnimatedZonTitle from './components/AnimatedZonTitle';
+import GameBanner from './components/GameBanner';
 import Sidebar from './SideMenu';
 import MarketplaceSwitcher from './components/WalletSwitcher';
 import YourCollections from './YourCollections';
