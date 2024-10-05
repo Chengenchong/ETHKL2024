@@ -12,14 +12,35 @@ const Profile: React.FC = () => {
     // Update your app state here
     };
 
-    // TODO: Calls your implemented server route
     const verifyProof = async (proof: ISuccessResult) => {
-        throw new Error("TODO: verify proof server route")
-    };
+        console.log('proof', proof);
+        const response = await fetch(
+          'https://developer.worldcoin.org/api/v1/verify/app_staging_129259332fd6f93d4fabaadcc5e4ff9d',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ ...proof, action: "test"}),
+          }
+        );
+        if (response.ok) {
+          const { verified } = await response.json();
+          return verified;
+        } else {
+          const { code, detail } = await response.json();
+          throw new Error(`Error Code ${code}: ${detail}`);
+        }
+      };
 
     // TODO: Functionality after verifying
-    const onSuccess = () => {
+    const onSuccess = (result: ISuccessResult) => {
         console.log("Success")
+        // This is where you should perform frontend actions once a user has been verified
+        window.alert(
+            `Successfully verified with World ID!
+        Your nullifier hash is: ` + result.nullifier_hash
+        )
     };
 
     return (
@@ -42,14 +63,15 @@ const Profile: React.FC = () => {
                     </div>
                     <div className="flex-shrink-0 ml-4">
                         <IDKitWidget
-                            app_id="app_staging_6c7c56bcb427de01b0c79bb9229b3c6d"
+                            app_id="app_staging_9e80fad4da09d777c63031d1ff8c6e30"
                             action="verifyidentity"
-                            // On-chain only accepts Orb verifications
-                            verification_level={VerificationLevel.Orb}
+                            verification_level={VerificationLevel.Device}
                             handleVerify={verifyProof}
                             onSuccess={onSuccess}>
                             {({ open }) => (
-                            <button onClick={open}>
+                            <button
+                                onClick={open}
+                            >
                                 Verify with World ID
                             </button>
                             )}
