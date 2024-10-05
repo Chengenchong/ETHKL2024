@@ -1,41 +1,68 @@
-// utils/ethereumProvider.ts
 import { ethers } from 'ethers';
 
-const SCROLL_RPC_URL = 'https://sepolia-rpc.scroll.io/';  // Replace with the correct RPC URL for Scroll
+const SCROLL_RPC_URL = 'https://sepolia-rpc.scroll.io/';
+const MANTA_RPC_URL = 'https://pacific-rpc.sepolia-testnet.manta.network/http';
 
-let provider: ethers.JsonRpcProvider | null = null;
-
-export function getProvider(): ethers.JsonRpcProvider {
-  if (!provider) {
-    provider = new ethers.JsonRpcProvider(SCROLL_RPC_URL);
+const networkConfigs = {
+  scroll: {
+    chainId: '0x8274f', // 534351 in hexadecimal
+    chainName: 'Scroll Sepolia Testnet',
+    nativeCurrency: {
+      name: 'Ethereum',
+      symbol: 'ETH',
+      decimals: 18
+    },
+    rpcUrls: [SCROLL_RPC_URL],
+    blockExplorerUrls: ['https://sepolia.scrollscan.com/']
+  },
+  manta: {
+    chainId: '0x34816E', // 3441006 in hexadecimal
+    chainName: 'Manta Pacific Sepolia Testnet',
+    nativeCurrency: {
+      name: 'ETH',
+      symbol: 'ETH',
+      decimals: 18
+    },
+    rpcUrls: [MANTA_RPC_URL],
+    blockExplorerUrls: ['https://pacific-explorer.sepolia-testnet.manta.network/']
   }
-  return provider;
+};
+
+export function getProvider(network: 'scroll' | 'manta'): ethers.JsonRpcProvider {
+  return new ethers.JsonRpcProvider(network === 'scroll' ? SCROLL_RPC_URL : MANTA_RPC_URL);
 }
 
-export async function connectWallet(): Promise<ethers.BrowserProvider | null> {
+export async function connectWallet(network: 'scroll' | 'manta'): Promise<ethers.BrowserProvider | null> {
   if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
     try {
       await window.ethereum.request({ method: 'eth_requestAccounts' });
       const provider = new ethers.BrowserProvider(window.ethereum);
-      let network = await provider.getNetwork();
+
+      const networkConfig = networkConfigs[network];
       
-      if (network.chainId !== BigInt(524351)) {  // Scroll's chain ID
+      try {
         await window.ethereum.request({
-          method: 'wallet_addEthereumChain',
-          params: [{
-            chainId: '0x8274f',  // 534351 in hexadecimal
-            chainName: 'Scroll Sepoila Testnet',
-            nativeCurrency: {
-              name: 'Ethereum',
-              symbol: 'ETH',
-              decimals: 18
-            },
-            rpcUrls: [SCROLL_RPC_URL],
-            blockExplorerUrls: ['https://sepolia.scrollscan.com/']
-          }]
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: networkConfig.chainId }],
         });
+      } catch (switchError: any) {
+        // This error code indicates that the chain has not been added to MetaMask.
+        if (switchError.code === 4902) {
+          try {
+            await window.ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [networkConfig],
+            });
+          } catch (addError) {
+            console.error('Failed to add network:', addError);
+            return null;
+          }
+        } else {
+          console.error('Failed to switch network:', switchError);
+          return null;
+        }
       }
-      
+
       return provider;
     } catch (error) {
       console.error('Failed to connect wallet:', error);

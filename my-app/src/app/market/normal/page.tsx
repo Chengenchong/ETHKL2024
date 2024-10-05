@@ -1,10 +1,15 @@
 "use client";
 
-import { useState } from "react"; // Import useState
-import Sidebar from "../../SideMenu";
+import React, { useState } from 'react';
+import AnimatedZonTitle from '../../AnimatedZonTitle';
+import Sidebar from '../../SideMenu';
+import ScrollWallet from '../../components/ScrollWallet';
 
-const NormalMarket = () => {
-  const [isExpanded, setIsExpanded] = useState(true); // Initialize state
+const NormalMarket: React.FC = () => {
+  const [isExpanded, setIsExpanded] = useState(true);
+  const handleConnectionChange = (isConnected: boolean) => {
+    // Update your app state here
+  };
 
   return (
     <div className="flex min-h-screen bg-zinc-900">
@@ -12,12 +17,24 @@ const NormalMarket = () => {
         isExpanded={isExpanded} 
         onToggle={() => setIsExpanded(!isExpanded)} 
       />
-      <div className={`flex-1 p-4 transition-all duration-700 ease-in-out ${isExpanded ? 'ml-[260px]' : 'ml-[80px]'}`}>
-        <h1 className="text-white">Normal Market Place</h1>
-        {/* Your component logic here */}
-      </div>
+      <main 
+        className={`flex-1 p-8 transition-all duration-500 ease-in-out relative
+          ${isExpanded ? 'ml-[260px]' : 'ml-[80px]'}`}
+      >
+        <div className="max-w-7xl mx-auto">
+          <div className="flex justify-between items-center mb-8">
+            <div className="flex-1">
+              <AnimatedZonTitle />
+            </div>
+            <div className="flex-shrink-0 ml-4">
+              <ScrollWallet onConnectionChange={handleConnectionChange} />
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   );
 };
-
+  
 export default NormalMarket;
+  
