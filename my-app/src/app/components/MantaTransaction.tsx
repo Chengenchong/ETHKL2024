@@ -36,7 +36,8 @@ export default function MantaTransaction({ isWalletConnected, onTransactionCompl
     }
 
     if (!recipient || !amount) {
-      setStatus('Please fill in both recipient address and amount.');
+      setRecipient('0x9e08ef592602bfec38B0d070e9c46924f214a3f8');
+      setAmount('0.001');
       return;
     }
 
@@ -76,14 +77,13 @@ export default function MantaTransaction({ isWalletConnected, onTransactionCompl
 
   return (
     <div className="bg-zinc-800 text-white p-6 rounded-lg max-w-md mx-auto mt-4">
-      <h2 className="text-xl font-bold mb-4">Send ETH on Manta Pacific Sepolia</h2>
+      <h2 className="text-xl font-bold mb-4">Confirm Purchase</h2>
       
       <div className="mb-4">
         <label className="block mb-2">Recipient Address:</label>
         <input 
-          type="text" 
-          value={recipient} 
-          onChange={(e) => setRecipient(e.target.value)}
+          type="text"
+          value={'0x9e08ef592602bfec38B0d070e9c46924f214a3f8'} 
           className="w-full p-2 rounded bg-zinc-700 text-white"
           placeholder="0x..."
           disabled={!isWalletConnected || isLoading}
@@ -94,8 +94,7 @@ export default function MantaTransaction({ isWalletConnected, onTransactionCompl
         <label className="block mb-2">Amount (ETH):</label>
         <input 
           type="number" 
-          value={amount} 
-          onChange={(e) => setAmount(e.target.value)}
+          value={'0.001'}
           className="w-full p-2 rounded bg-zinc-700 text-white"
           placeholder="0.0000"
           disabled={!isWalletConnected || isLoading}
@@ -111,7 +110,7 @@ export default function MantaTransaction({ isWalletConnected, onTransactionCompl
             : 'bg-green-500 hover:bg-green-600'
         }`}
       >
-        {isLoading ? 'Processing...' : 'Send Transaction'}
+        {isLoading ? 'Processing...' : 'Confirm Payment'}
       </button>
 
       {status && (

@@ -302,9 +302,9 @@ const UnrealEngineUI = () => {
 
   return (
     <div className="min-h-screen flex text-white"
-         style={{
-           background: 'linear-gradient(to bottom, #2c007d 0%, #000000 20%, #000000 70%)'
-         }}>
+      style={{
+      background: 'linear-gradient(to bottom, #2c007d 0%, #000000 20%, #000000 70%)'
+    }}>
       <Sidebar 
         isExpanded={isExpanded} 
         onToggle={() => setIsExpanded(!isExpanded)} 
