@@ -10,18 +10,18 @@ const ProductGrid: React.FC<ProductGridProps> = ({ type, onPurchase }) => {
     onPurchase();
   };
 
-  const products = type === 'Games' 
+  const products = type === 'Games'
     ? [
-        { id: '1', name: 'Game 1', price: 50, image: '/game1.jpg' },
-        { id: '2', name: 'Game 2', price: 75, image: '/game2.jpg' },
-        { id: '3', name: 'Game 3', price: 100, image: '/game3.jpg' },
-        { id: '4', name: 'Game 4', price: 125, image: '/game4.jpg' },
+        { id: '1', name: 'Game 1', price: 50, image: 'https://www.freetogame.com/g/5/thumbnail.jpg' }, // Warframe banner
+        { id: '2', name: 'Game 2', price: 75, image: 'https://www.freetogame.com/g/6/thumbnail.jpg' }, // Path of Exile banner
+        { id: '3', name: 'Game 3', price: 100, image: 'https://www.freetogame.com/g/4/thumbnail.jpg' }, // Dauntless banner
+        { id: '4', name: 'Game 4', price: 125, image: 'https://www.freetogame.com/g/3/thumbnail.jpg' }, // Destiny 2 banner
       ]
     : [
-        { id: '1', name: 'Asset 1', price: 5, image: '/asset1.jpg' },
-        { id: '2', name: 'Asset 2', price: 10, image: '/asset2.jpg' },
-        { id: '3', name: 'Asset 3', price: 15, image: '/asset3.jpg' },
-        { id: '4', name: 'Asset 4', price: 20, image: '/asset4.jpg' },
+        { id: '1', name: 'Asset 1', price: 5, image: 'https://images.unsplash.com/photo-1574158622682-e40e69881006' }, // Sword asset
+        { id: '2', name: 'Asset 2', price: 10, image: 'https://images.unsplash.com/photo-1610271044747-f302f4d0c402' }, // Magical artifact
+        { id: '3', name: 'Asset 3', price: 15, image: 'https://images.unsplash.com/photo-1610271045832-05b6d52bcf0e' }, // Shield
+        { id: '4', name: 'Asset 4', price: 20, image: 'https://images.unsplash.com/photo-1588361866246-4ef51c9f60c7' }, // Helmet
       ];
 
   return (

@@ -13,6 +13,11 @@ const TrendingSection: React.FC<TrendingSectionProps> = ({ title, type }) => {
     { id: 4, name: 'Item 4', price: '125', volume: '2500' },
   ];
 
+  const imageUrls = {
+    games: 'https://picsum.photos/200/200?random=1',  // Example from Lorem Picsum
+    assets: 'https://picsum.photos/200/200?random=2', // Different random image
+  };
+
   return (
     <div className="bg-gray-800 rounded-lg p-6">
       <h3 className="text-xl font-bold text-white mb-4">{title}</h3>
@@ -40,7 +45,7 @@ const TrendingSection: React.FC<TrendingSectionProps> = ({ title, type }) => {
           {trendingItems.map((item) => (
             <tr key={item.id} className="border-t border-gray-700">
               <td className="py-4 flex items-center">
-                <img src={`/placeholder-${type}.jpg`} alt={item.name} className="w-10 h-10 rounded-full mr-2" />
+                <img src={imageUrls[type]} alt={item.name} className="w-10 h-10 rounded-full mr-2" />
                 {item.name}
               </td>
               <td className="py-4">{item.price}</td>

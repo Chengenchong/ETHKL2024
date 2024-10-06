@@ -2,7 +2,7 @@
 
 import { FC, useState, useEffect } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { FaHome, FaCog, FaPlus, FaChevronDown, FaUser, FaEthereum } from "react-icons/fa";
+import { FaHome, FaStore, FaPlus, FaChevronDown, FaUser, FaEthereum } from "react-icons/fa";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import './SideBar.css';
@@ -16,7 +16,7 @@ const menuItems = [
   },
   {
     name: "Market Place",
-    icon: <FaCog size={15} />,
+    icon: <FaStore size={15} />,
     items: [
       { name: "Premium Market Place", path: "/market/premium" },
       { name: "Normal Market Place", path: "/market/normal" },

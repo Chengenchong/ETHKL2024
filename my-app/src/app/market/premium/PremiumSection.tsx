@@ -2,9 +2,9 @@ import React from 'react';
 
 const PremiumSection: React.FC = () => {
   const premiumItems = [
-    { id: '1', name: 'Product 2', price: 75, image: '/product2.jpg' },
-    { id: '2', name: 'Product 3', price: 100, image: '/product3.jpg' },
-    { id: '3', name: 'Product 4', price: 125, image: '/product4.jpg' },
+    { id: '1', name: 'Cyberpunk 2077', price: 75, image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg?t=1680807973' },
+    { id: '2', name: 'Red Dead Redemption 2', price: 100, image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/header.jpg?t=1682977696' },
+    { id: '3', name: 'The Witcher 3: Wild Hunt', price: 125, image: 'https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg?t=1689683560' },
   ];
 
   return (
